@@ -1,0 +1,12 @@
+準備基礎模板
+使用: npm install
+
+HW1: 給定MQTT Broker IP，請寫一份code將訊息:"我來交作業" publish到topic: NXG/"student name"/homework ("student name"為學生姓名）
+HW2: 給定RSSI-Distance轉換公式、三個Anchor(02, 03, 05)的座標，請問01和07(皆為固定點)的位置是? 提示：如何使用三角定位
+HW3: 1. 請寫出一API可以讓使用者藉由GET /location/:device得到某device的座標
+     2. 寫出一API讓使用者藉由GET /cmd/history/:device得到發給某device的命令之歷史紀錄
+
+輔助用軟體：
+MQTTLens
+Robo 3T (Robomongo)
+Postｍan
