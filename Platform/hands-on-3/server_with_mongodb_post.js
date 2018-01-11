@@ -1,15 +1,26 @@
 var mongoose = require('mongoose');
+
+var express = require('express');
+var app = express();
+var Packet = require('./model/Packet');
+mongoose.connect('mongodb://localhost/iotplatform');
+
 var mqtt = require('mqtt');
 var bodyParser = require('body-parser');
-var express = require('express');
-
-var app = express();
 var client = mqtt.connect('mqtt://test.mosquitto.org');
 var parseUrlencoded = bodyParser.urlencoded({ extended: false });
-
-var Packet = require('./model/Packet');
 var Command = require('./model/Command');
-mongoose.connect('mongodb://localhost/iotplatform');
+
+
+// app.all('*', function(req, res, next) {
+//    res.header('Access-Control-Allow-Origin', '*');
+//    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+//    res.header('Access-Control-Allow-Headers', 'Content-Type');
+//    next();
+//  });
+
+app.use(express.static('./front_end'));
+
 
 app.get('/', function(request, response) {
   response.send("Hello World!");
@@ -47,6 +58,13 @@ app.get('/rssis', function(request, response) {
   })
 });
 
+app.get('/cmd', function(request, response) {
+  Command.find({
+  }, function(err, result) {
+    response.send(result);
+  })
+});
+
 app.post('/cmd/:device', parseUrlencoded, function(request, response) {
   var jsonCMD = {
     dest: request.params.device,
@@ -58,7 +76,6 @@ app.post('/cmd/:device', parseUrlencoded, function(request, response) {
 
   jsonCMD.timestamp = +new Date();
   newCMD = new Command(jsonCMD);
-  // console.log(jsonCMD);
   newCMD.save(function(err) {
     if (!err) {
       response.send("Success!");
@@ -68,6 +85,7 @@ app.post('/cmd/:device', parseUrlencoded, function(request, response) {
     }
   });
 })
+
 
 app.listen(3000, function(request, response) {
   console.log('Listening on port 3000!');

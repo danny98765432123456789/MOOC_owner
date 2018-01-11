@@ -31,7 +31,7 @@ var D6_x, D6_y;
 var D6_x_array = [],
   D6_y_array = [];
 var length = 3000;
-var timeout = 3000;
+var timeout = 120000;
 
 
 // USART Packet Simulator
@@ -93,7 +93,7 @@ function draw(D6_x_array, D6_y_array) {
       }
     }
   };
-  var data = [ trace2];
+  var data = [trace1, trace2];
   var graphOptions = {
     filename: "basic-line",
     fileopt: "overwrite"

@@ -1,19 +1,22 @@
-var mongoose = require('mongoose');
-var express = require('express');
 
+var express = require('express');
 var app = express();
+
+var mongoose = require('mongoose');
 var Packet = require('./model/Packet');
 mongoose.connect('mongodb://localhost/iotplatform');
-
-app.get('/', function(request, response) {
-  response.send("Hello World!");
-});
 
 app.get('/packets', function(request, response) {
   Packet.find(function(err, result) {
     response.send(result);
   })
 });
+
+app.get('/', function(request, response) {
+  response.send("Hello World!");
+});
+
+
 
 app.get('/packets/:src', function(request, response) {
   Packet.find({

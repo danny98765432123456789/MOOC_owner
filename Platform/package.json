@@ -1,20 +1,14 @@
 {
   "name": "NXG-Moocs-Platform",
   "version": "0.0.1",
-  "author": "NXG-Lab: AnCheTeng",
-  "license":"MIT",
   "dependencies": {
-    "express": "~4.13.4",
-    "mongoose": "~4.4.8",
     "body-parser": "~1.15.0",
-    "virtual-serialport": "latest",
+    "express": "^4.16.2",
     "md5": "latest",
+    "mongoose": "~4.4.8",
     "mqtt": "latest",
-    "randgen": "latest"
+    "randgen": "latest",
+    "virtual-serialport": "latest"
   },
-  "description": "NXG-Lab MOOCS Course - Platform",
-  "repository": {
-		"type": "git",
-		"url": "https://github.com/AnCheTeng/NXG_MOOCs_Platform.git"
-	}
+  "description": "NXG-Lab MOOCS Course - Platform"
 }

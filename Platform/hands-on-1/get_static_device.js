@@ -100,13 +100,19 @@ setTimeout(function() {
 
 function draw(D1_x_array, D1_y_array) {
 
-  var trace = {
+  var trace1 = {
     x: D1_x_array,
     y: D1_y_array,
     mode: "markers",
     type: "scatter"
   };
-  var data = [trace];
+  var trace2 = {
+    x: [A2_x,A3_x,A5_x],
+    y: [A2_y,A3_y,A5_y],
+    mode: "markers",
+    type: "scatter"
+  };
+  var data = [trace1,trace2];
   var graphOptions = {
     filename: "basic-line",
     fileopt: "overwrite"

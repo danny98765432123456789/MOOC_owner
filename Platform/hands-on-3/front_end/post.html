@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>NXG in MOOCs</title>
+  <meta charset="utf-8">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-beta.1.css" type="text/css">
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+  <!-- <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+  <!-- <link href="http://pingendo.github.io/pingendo-bootstrap/themes/default/bootstrap.css" rel="stylesheet" type="text/css"> -->
+  <link href="css/main.css" rel="stylesheet">
+  <script type="text/javascript" src="jquery.js"></script>
+  <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+  <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+  <!-- <script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script> -->
+  <script>
+    (function(factory) {
+      if (typeof define === "function" && define.amd) {
+        define(["jquery", "../jquery.validate"], factory);
+      } else {
+        factory(jQuery);
+      }
+    }(function($) {
+
+      /*
+       * Translated default messages for the jQuery validation plugin.
+       * Locale: ZH (Chinese, 銝剜�� (Zh�㤔gw矇n), 瘙㕑祗, 瞍Ｚ��)
+       */
+      $.extend($.validator.messages, {
+        required: "This field is required.",
+        remote: "",
+        email: "Please enter a valid email address.",
+        url: "",
+        date: "",
+        dateISO: " (YYYY-MM-DD)",
+        number: "",
+        digits: "",
+        creditcard: "",
+        equalTo: "",
+        extension: "",
+        maxlength: $.validator.format(" {0} "),
+        minlength: $.validator.format(" {0} "),
+        rangelength: $.validator.format(" {0}  {1} "),
+        range: $.validator.format(" {0} �� {1} "),
+        max: $.validator.format(" {0} "),
+        min: $.validator.format(" {0} ")
+      });
+
+    }));
+
+    $.validator.setDefaults({
+      submitHandler: function() {
+        // alert("Sumit! \nYour result has saved");
+      }
+    });
+    $().ready(function() {
+      $("#form").validate();
+    });
+  </script>
+  <style>
+    .error {
+      color: red;
+    }
+  </style>
+  <script>
+    $(document).ready(function() {
+
+      button_post();
+      processFormData();
+      setInterval(function() {
+        Get_from_API();
+      }, 1000);
+    })
+
+    function Get_from_API() {
+      // alert(device_id);
+      $.ajax("http://140.112.41.157:3000/student_log", {
+        type: 'GET',
+        success: function(result) {
+
+          var len = result.length
+          // alert(result[len-1].cmd);
+          $("#block1" + " > p").next().text("Total:  " + len);
+          $("#block2" + " > footer").text("Lastest person: " + result[len - 1].Name + "\n\n");
+          // $("#block2" + " > p").next().next().text("Destination: " + result[result.length - 1].dest);
+          // $("#block2" + " > p").next().next().next().text("RSSI: " + result[result.length - 1].rssi);
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+          console.log(textStatus, errorThrown);
+        }
+      });
+    }
+
+    // function button_post1() {
+    //   // alert("123");
+    //
+    // }
+
+    function button_post() {
+      // alert("123");
+      $("#button1").click(function() {
+        // alert("123");
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://140.112.41.157:3000/cmd/3',
+          data: {
+            command: "Turn off the device"
+          },
+          success: function(data) {
+            alert(data);
+          },
+          contentType: "application/x-www-form-urlencoded",
+          dataType: "Text"
+
+          // data: '{"command":"jonas"}', // or JSON.stringify ({name: 'jonas'}),
+          // success: function(data) {
+          //   alert('data: ' + data);
+          // },
+          // contentType: "application/json",
+          // dataType: 'json'
+        });
+      });
+
+      $("#button2").click(function() {
+        // alert("123");
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://140.112.41.157:3000/cmd/3',
+          data: {
+            command: "Turn on the device"
+          },
+          success: function(data) {
+            alert("Success!!");
+          },
+          contentType: "application/x-www-form-urlencoded",
+          dataType: "Text"
+
+          // data: '{"command":"jonas"}', // or JSON.stringify ({name: 'jonas'}),
+          // success: function(data) {
+          //   alert('data: ' + data);
+          // },
+          // contentType: "application/json",
+          // dataType: 'json'
+        });
+      });
+    }
+
+    function processFormData() {
+      //get form element
+
+
+      $("#buttonsubmit").click(function() {
+        // alert("123");
+        var oform = document.forms['form'];
+        var name = oform.elements['name'].value;
+        var account = oform.elements['account'].value;
+        var coor1 = oform.elements['coor1'].value;
+        var coor2 = oform.elements['coor2'].value;
+        var coor6 = oform.elements['coor6'].value;
+
+        if ((coor1 === "(3,7)" || coor1 === "(2,7)" || coor1 === "(4,7)" || coor1 === "(3,6)" || coor1 === "(3,8)") && coor2 !== "(7,4)" && coor2 !== "(7,5)" && coor2 !== "(7,3)" && coor2 !== "(6,4)" && coor2 !== "(8,4)" && coor6 !==
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 40
+
+            },
+            success: function(data) {
+              alert("Wow! You are so smart!\nScore: 40");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if (coor1 !== "(3,7)" && coor1 !== "(4,7)" && coor1 !== "(2,7)" && coor1 !== "(3,6)" && coor1 !== "(3,8)" && (coor2 === "(7,4)" || coor2 === "(7,3)" || coor2 === "(7,5)" || coor2 === "(6,4)" || coor2 === "(8,4)") && coor6 !==
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 40
+
+            },
+            success: function(data) {
+              alert("Fantastic! What a smart guy!\nScore: 40");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if (coor1 !== "(3,7)" && coor1 !== "(4,7)" && coor1 !== "(2,7)" && coor1 !== "(3,6)" && coor1 !== "(3,8)" && coor2 !== "(7,4)" && coor2 !== "(7,5)" && coor2 !== "(7,3)" && coor2 !== "(6,4)" && coor2 !== "(8,4)" && coor6 ==
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 20
+
+            },
+            success: function(data) {
+              alert("Come on! You are almost there!\nScore: 20");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if ((coor1 === "(3,7)" || coor1 === "(2,7)" || coor1 === "(4,7)" || coor1 === "(3,6)" || coor1 === "(3,8)") && (coor2 === "(7,4)" || coor2 === "(7,3)" || coor2 === "(7,5)" || coor2 === "(6,4)" || coor2 === "(8,4)") && coor6 !==
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 80
+
+            },
+            success: function(data) {
+              var random1 = Math.random();
+              if (0.6 <= random1) {
+                alert("Cheer up! You are almost there!\nScore: 80");
+              } else if (0.3 <= random1 < 0.6) {
+                alert("Cheer up! I know this is a most difficult one!\nScore: 80");
+              } else {
+                alert("Be careful of the format of the Question3!\nScore: 80")
+              }
+
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if ((coor1 === "(3,7)" || coor1 === "(2,7)" || coor1 === "(4,7)" || coor1 === "(3,6)" || coor1 === "(3,8)") && coor2 !== "(7,4)" && coor2 !== "(7,5)" && coor2 !== "(7,3)" && coor2 !== "(6,4)" && coor2 !== "(8,4)" && coor6 ===
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 60
+
+            },
+            success: function(data) {
+              alert("God job!! \nScore: 60");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if (coor1 !== "(3,7)" && coor1 !== "(4,7)" && coor1 !== "(2,7)" && coor1 !== "(3,6)" && coor1 !== "(3,8)" && (coor2 === "(7,4)" || coor2 === "(7,3)" || coor2 === "(7,5)" || coor2 === "(6,4)" || coor2 === "(8,4)") && coor6 ===
+          "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)") {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 60
+
+            },
+            success: function(data) {
+              alert("Excellent!!\nScore: 60");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else if ((coor1 === "(3,7)" || coor1 === "(2,7)" || coor1 === "(4,7)" || coor1 === "(3,6)" || coor1 === "(3,8)") && (coor2 === "(7,4)" || coor2 === "(7,3)" || coor2 === "(7,5)" || coor2 === "(6,4)" || coor2 === "(8,4)") && (coor6 ===
+            "(5,1)-(1,5)-(5,9)-(9,5)-(5,1)")) {
+          // alert("Win!");
+
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 100
+
+            },
+            success: function(data) {
+              alert("Wonferful!! You really did a great job\nScore: 100");
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+        } else {
+          // alert("12")
+          $.ajax({
+            type: 'POST',
+            url: 'http://140.112.41.157:3000/student_log',
+            data: {
+              Name: name.toString(),
+              Account: account.toString(),
+              Answer1: coor1.toString(),
+              Answer2: coor2.toString(),
+              Answer3: coor6.toString(),
+              Score: 0
+
+            },
+            success: function(data) {
+              var random = Math.random();
+              if (0.6 <= random) {
+                alert("All the answers are wrong > < \nScore: 0");
+              } else if (0.3 <= random < 0.6) {
+                alert("All the answers are wrong\nCome on, try harder \nScore: 0");
+              } else {
+                alert("Be careful of the format of the answers!\nScore: 0")
+              }
+
+            },
+            error: function(err) {
+              alert(err);
+            },
+            contentType: "application/x-www-form-urlencoded",
+            dataType: "Text"
+
+          });
+
+
+        }
+        // $.ajax({
+        //   type: 'POST',
+        //   url: 'http://localhost:3000/cmd/3',
+        //   data: {
+        //     command: "Turn off the device"
+        //   },
+        //   success: function(data) {
+        //     alert("wawo");
+        //   },
+        //   contentType: "application/x-www-form-urlencoded",
+        //   dataType: "Text"
+        //
+        //   // data: '{"command":"jonas"}', // or JSON.stringify ({name: 'jonas'}),
+        //   // success: function(data) {
+        //   //   alert('data: ' + data);
+        //   // },
+        //   // contentType: "application/json",
+        //   // dataType: 'json'
+        // });
+      });
+
+
+
+    }
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#"><i class="fa d-inline fa-lg fa-cloud"></i><b>&nbsp; NXG in MOOCs</b></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
+      <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="http://www.ntu.edu.tw/english/"><i class="fa d-inline fa-lg fa-bookmark-o"></i> NTU</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://nxg.ee.ntu.edu.tw/web/index"><i class="fa d-inline fa-lg fa-bookmark-o"></i> NXG</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="http://nxg.ee.ntu.edu.tw/web/contact" id="contacts"><i class="fa d-inline fa-lg fa-envelope-o"></i> Contacts</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="py-5 text-center opaque-overlay" style="background-image: url(&quot;https://i.imgur.com/1XbvRkB.jpg&quot;);">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col-md-12 text-white">
+          <h1 class="mb-4 text-dark display-4">Next Generation Laboratory</h1>
+          <p class="mb-5 text-center lead text-dark">This is a simple demo for restful APIs</p>
+          <a href="http://nxg.ee.ntu.edu.tw/web/index" class="btn btn-lg mx-1 btn-primary">NTU X NXG X MOOCs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="py-5">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="">MOOCs Locating Project</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <img class="img-fluid d-block w-100 img-thumbnail" src="https://i.imgur.com/k3zDIuv.png"> </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-5 align-self-center"> </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="">Homework2</h1>
+          <p class="">Set up a server to receive the data through MQTT from the gateway (Hands-on-1).&nbsp;
+            <br>Determine the position or path of devices (#01,#04 are static and #06 is&nbsp;<span style="font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; font-size: 1rem;">dynamic)by the known coordinates of anchors (#02,#03,#05)</span>
+            <br><span style="font-family: -apple-system, system-ui, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, &quot;Helvetica Neue&quot;, Arial, sans-serif; font-size: 1rem;">Submit the answers here.</span></p>
+          <div class="row">
+            <div class="col-md-12">
+              <form id="form" name="form">
+                <div class="form-group"> <label>Name</label>
+                  <input type="" name="name" class="form-control w-50" placeholder="Danny" required=""> </div>
+                <div class="form-group"> <label>Account</label>
+                  <input type="email" name="account" class="form-control w-50" placeholder="username@domain.com" required=""> </div>
+                <div class="form-group"> <label>Question1: Coordinate of mobile tag 1 (40%)</label>
+                  <input type="coor1" name="coor1" class="form-control w-50" placeholder="(x,y)"> </div>
+                <div class="form-group"> <label>Question2: Coordinate of mobile tag 4 (40%)</label>
+                  <input type="coor2" name="coor2" class="form-control w-50" placeholder="(x,y)"> </div>
+                <div class="form-group"> <label>Question3: Coordinates of mobile tag 6 (Bouns 20%)</label>
+                  <input type="coor6" name="coor6" class="form-control w-50" placeholder="(x1,y1)-(x2,y2)-(x3,y3)-(x4,y4)-(x5,y5)"> </div>
+                <button class="btn btn-primary" id="buttonsubmit">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h1>
+            <font size="6"><b><br>Real time information</b></font>
+          </h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-10">
+          <p> </p>
+          <div class="row">
+            <div class="col-md-6">
+              <blockquote id="block1">
+                <p>
+                  <font size="5">Submission -&gt;</font>
+                </p>
+                <footer>
+                  <font size="3">Total:</font>
+                  <br> </footer>
+              </blockquote>
+              <blockquote id="block2">
+                <footer>
+                  <font size="3">Lastest person: </font>
+                  <br> </footer>
+              </blockquote>
+            </div>
+          </div>
+          <h1>
+            <font size="6"><b><br>Demo for controling the devices<br><br></b></font>
+          </h1>
+          <button id="button1" class="btn btn-primary">Turn off the anchor3</button>
+          <button id="button2" class="btn btn-primary">Turn on the anchor3</button>
+        </div>
+        <div class="col-md-7">
+          <div class="row">
+            <div class="col-md-6">
+              <p class="lead">&nbsp; &nbsp;
+                <br>
+                <br> </p>
+            </div>
+          </div>
+          <h2 class="text-primary pt-3">Professor Chou</h2>
+          <p class=""> Professor Chou has been working in the area of wireless communication and networking with emphasis on medium access control (MAC) protocols, dynamic spectrum access (DSA) and large-scale Internet-of-Thing (IoT) networks. He is also interested
+            in new applications and services in wireless networks and has developed various prototypes for smart lighting control, offline-to-online advertisement platform and energy-saving smart campus after he joins National Taiwan University. His work
+            in wireless communication and networking has been published in different journals and international conferences including IEEE/ACM Transactions on Networking, IEEE Transactions on Mobile Computing, IEEE Transactions on Wireless Communications,
+            IEEE Journal on Selected Areas in Communications, IEEE INFOCOM, IEEE Globecom, IEEE VTC, etc. He was also the recipient of the FAOS Young Excellent Oversea Scholar Award in 2008, and the recipient of National Taiwan University Excellent Teacher
+            Award in 2010, 2011, and 2012. Professor Chou has also filed 5 patents for his work in wireless technologies and applications. Before joining National Taiwan University in 2008, Professor Chou was a senior member research staff in Philips
+            Research North America and has designed various medium access control (MAC) protocols including WiMedia Ultra Wide Band (UWB)/ECMA 368, IEEE 802.11, IEEE 802.15.5 mesh network, and ECMA 387 (60 GHz), IEEE 802.22 and ECMA 392 Standard (TV white
+            space) wireless standards. He has filed 16 patents in the area of UWB, 60 GHz, and DSA during his work in Philips Research.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="text-primary pt-3">&nbsp;TA Danny</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p class="">If you have any problems, please send the email to&nbsp;r05942080@ntu.edu.tw&nbsp;
+            <br>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="container"> </div>
+  </div>
+  <div class="bg-dark text-white">
+    <div class="container">
+      <div class="row">
+        <div class="p-4 col-md-3">
+          <h2 class="mb-4 text-secondary" href="http://www.ntu.edu.tw/english/index.html">NTU</h2>
+          <img class="img-fluid d-block mb-4 w-100 img-thumbnail" src="https://i.imgur.com/mjW0UWK.png" href="http://www.ntu.edu.tw/english/index.html">
+          <p>National Taiwan University is a national university in Taipei City, Taiwan. Considered the most prestigious university in Taiwan and one of the top ranked universities in the world, it consists of 11 colleges, 54 departments, 107 graduate institutes
+            and four research centers.</p>
+        </div>
+        <div class="p-4 col-md-3">
+          <h2 class="mb-4 text-secondary">NXG</h2>
+          <img class="img-fluid d-block mb-4 w-100 img-thumbnail" src="https://i.imgur.com/RhqirhA.jpg">
+          <p>Our Lab had been established from February in 2008, and we focus on the next generation’s core technology and the application’s research. The field we pay attention on include: (1) IoT, (2) DSA, (3) Fog-computing and (4) Omni-eyes. </p>
+        </div>
+        <div class="p-4 col-md-6">
+          <h2 class="mb-4">Contact</h2>
+          <a href="https://www.google.it/maps/place/Universit%C3%A0+Nazionale+di+Taiwan/@25.0173405,121.5375631,17z/data=!3m1!4b1!4m5!3m4!1s0x3442a989fe322ea9:0x21750404ee1d7f66!8m2!3d25.0173405!4d121.5397518?hl=it" class="text-white" target="_blank"><i class="fa d-inline mr-3 fa-map-marker text-secondary"></i>NTU</a>
+          <p>Address:&nbsp;
+            <br>National Taiwan University EE 550 room No. 1, Sec. 4, Roosevelt Rd., Taipei 10617, Taiwan (R.O.C.)</p>
+          <p>Phone:
+            <br>(02)3366-3366</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <p class="text-center text-white">© Copyright 2017 &nbsp;- All rights reserved. Designed by Danny.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

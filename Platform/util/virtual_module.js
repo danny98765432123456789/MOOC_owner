@@ -4,7 +4,7 @@ var randgen = require("randgen");
 var alpha = 205;
 var p = 4;
 var std = 1.5;
-var tx_speed = 400;
+var tx_speed = 400;//400 10000
 
 var anchors = [new Anchor(3, [0, 10]),
   new Anchor(2, [5, 0]),
